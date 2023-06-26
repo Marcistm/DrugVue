@@ -85,29 +85,17 @@ export default {
         }
         axios.get(path, { params: param, timeout: 300000 }).then(responses => {
           if (responses.data.code === 200) {
-            if (responses.data.auto_privilege === '0') {
+            if (responses.data.privilege === '0') {
               this.loading = false
               this.$message.error('没有登录系统的权限，请向OA申请')
             } else {
-              localStorage.setItem('permission', responses.data.auto_privilege)
+              localStorage.setItem('permission', responses.data.privilege)
               setUser(this.loginForm.username)
               this.$store
                   .dispatch('user/login',{token: responses.data.token})
                   .then(()=>{
                     this.loading = true
-                    // 登陆成功后重定向
-                    // 如果初次登录跳转到更改密码页面
-                    setUserName(responses.data.name)
-
-                    if (responses.data.has_login === 0) {
-                      this.$router.push('/resetPass')
-
-                      // this.$router.push({
-                      //   path: this.$route.query.redirect || '/resetPass'
-                      // })
-                    }else {
                       this.$router.push('/home')
-                    }
 
                   })
                   .catch(err=>{

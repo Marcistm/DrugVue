@@ -1,25 +1,13 @@
 <template>
 <div>
-  <el-form :inline="true">
-    <el-form-item label="物料号">
-      <el-select v-model="matnr" @change="get_param">
-        <el-option v-for="i in matnrs" :label="i.matnr" :value="i.matnr" :key="i.matnr"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="save">保存</el-button>
-    </el-form-item>
-  </el-form>
   <el-table :data="data" max-height="850">
-    <el-table-column label="参数名称" prop="param_type"></el-table-column>
-    <el-table-column label="值" prop="value">
+    <el-table-column :key="i" v-for="i in (0,table[0].value.length)" :label="table[0].value[i-1].label" :prop="table[0].value[i-1].value">
+    </el-table-column>
+    <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-input v-init v-model="scope.row.value" @blur="process(scope.row)"></el-input>
+        <el-button type="danger" @click="del(scope.row)">删除</el-button>
       </template>
     </el-table-column>
-    <el-table-column label="plc地址" prop="plc"></el-table-column>
-    <el-table-column label="类型" prop="type"></el-table-column>
-    <el-table-column label="参数类别" prop="category"></el-table-column>
   </el-table>
 </div>
 </template>
@@ -31,73 +19,47 @@ export default {
   name: "Param",
   data(){
     return{
-    matnrs:[],
-      matnr:'',
-      data:[]
+      filter_table:[
+        {table:'Grug',value:[{label:'编号',value:'GrNo'},{label:'名称',value:'GrName'},{label:'类型',value:'GrType'},
+            {label:'价格',value:'GrPrice'},{label:'保质期',value:'Gstodate'},{label:'时间',value:'GrDate'}]},
+        {table:'Customer',value:[{label:'编号',value:'CusNo'},{label:'姓名',value:'CusName'},{label:'年龄',value:'Cusage'},
+            {label:'电话',value:'CusTel'},]},
+        {table:'Employee',value:[{label:'编号',value:'EmpNo'},{label:'姓名',value:'EmpName'},{label:'年龄',value:'Empage'},
+            {label:'职位',value:'EmpType'},]},
+        {
+        table:'Supplier',value:[{label:'编号',value:'SupNo'},{label:'姓名',value:'SupName'},{label:'电话',value:'SupTel'},]
+        }
+      ],
+      data:[],
+      table:[],
+      name:'',
     }
   },
   methods:{
-    process(row){
-      if (row.type==='整数'){
-        if(!(/^\d+$/.test(row.value))){
-          this.$message.error('填写错误')
-          return
+    del(row){
+      let path='http://127.0.0.1:5000/del'
+      let params={table:this.name,no:row[this.table[0].value[0].value],col:this.table[0].value[0].value}
+      axios.get(path,{params:params}).then(res=>{
+        if (res.data.code===200) {
+          this.$message.success('删除成功')
         }
-      }
-      row.tag=true
-    },
-    save(){
-      let path='http://192.168.0.4:6325/auto_experiment/param/update'
-
-      this.$confirm('是否确认保存？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let temp=this.$store.state.filter({tag:true},this.data)
-        if(temp.length===0){
-          this.$message.error('没有需要保存的数据')
-          return
-        }
-        let params={
-          matnr:this.matnr,
-          data:temp
-        }
-        axios.post(path,params).then(res=>{
-          if (res.data.code===200){
-            this.$message.success('保存成功')
-          }
-
-        })
-
-      }).catch(() => {
-        console.log('取消保存');
-      });
-      },
-    get_matnrs(){
-      let path='http://192.168.0.4:6325/auto_experiment/matnrs/get'
-      axios.get(path).then(res=>{
-        this.matnrs=res.data.data
       })
     },
     get_param(){
-      let path='http://192.168.0.4:6325/auto_experiment/param/get'
-      let params={
-        matnr:this.matnr
-      }
+      let path='http://127.0.0.1:5000/get'
+      let params={table:this.name}
+      console.log(params)
       axios.get(path,{params:params}).then(res=>{
         this.data=res.data.data
-        this.data.forEach(item=>{
-          item['tag']=false
-        })
-        this.data.sort(function(a, b) {
-          return a.plc - b.plc;
-        });
       })
     }
   },
   mounted() {
-    this.get_matnrs()
+    console.log(this.filter_table)
+    this.name=this.$route.query.name
+    console.log(this.name)
+    this.table=this.$store.state.filter({table:this.name},this.filter_table)
+    this.get_param()
   }
 }
 </script>

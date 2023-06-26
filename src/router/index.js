@@ -16,10 +16,11 @@ export const constRouter = [
   },
 
   {
-    path: '/param',
+    path: '/Param',
     component: () => import('@/views/Param'),
     hidden: true //导航菜单忽略选项
   },
+
   {
     path: '/home',
     component: () => import('@/views/Home'),

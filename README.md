@@ -1,4 +1,4 @@
-# auto-experiment-param
+# DrugVue
 
 ## Project setup
 ```

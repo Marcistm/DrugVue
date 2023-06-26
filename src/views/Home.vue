@@ -2,7 +2,22 @@
   <div class="login">
     <div class="login-box">
       <div class="login-box-from">
-        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam">参数设置</el-button>
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Grug')">药品信息</el-button>
+      </div>
+    </div>
+    <div class="login-box">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Customer')">顾客信息</el-button>
+      </div>
+    </div>
+    <div class="login-box">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Employee')">员工信息</el-button>
+      </div>
+    </div>
+    <div class="login-box">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Supplier')">供应商信息</el-button>
       </div>
     </div>
 
@@ -14,15 +29,15 @@
 export default {
   data() {
     return {
-      count: 0,
-      test_str: 'test_str'
+
     }
   },
   methods:{
 
-    toParam() {
-      this.$router.push('/param')
+    toParam(name) {
+   this.$router.push('/Param?name=' + name)
     },
+
 
   }
 }
