@@ -1,9 +1,14 @@
 <template>
 <div>
+  <el-form :inline="true">
+    <el-form-item>
+      <el-button type="success">新增</el-button>
+    </el-form-item>
+  </el-form>
   <el-table :data="data" max-height="850">
     <el-table-column :key="i" v-for="i in (0,table[0].value.length)" :label="table[0].value[i-1].label" :prop="table[0].value[i-1].value">
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column label="操作" v-permission="['worker','admin']">
       <template slot-scope="scope">
         <el-button type="danger" @click="del(scope.row)">删除</el-button>
       </template>
@@ -55,9 +60,8 @@ export default {
     }
   },
   mounted() {
-    console.log(this.filter_table)
+
     this.name=this.$route.query.name
-    console.log(this.name)
     this.table=this.$store.state.filter({table:this.name},this.filter_table)
     this.get_param()
   }

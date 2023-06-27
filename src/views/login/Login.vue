@@ -7,12 +7,12 @@
             </div>
             <div class="login-box-from">
                 <el-form :model="loginForm" :rules="rules" ref="loginForm"  class="demo-ruleForm">
-                    <el-form-item prop="username" label="账号">
+                    <el-form-item prop="username" >
                         <el-input v-model="loginForm.username"  size="medium">
                             <el-button slot="prepend" icon="el-icon-user"></el-button>
                         </el-input>
                     </el-form-item>
-                    <el-form-item prop="password" label="密码">
+                    <el-form-item prop="password" >
                         <el-input v-model="loginForm.password"   size="medium" type="password">
                             <el-button slot="prepend" icon="el-icon-key"></el-button>
                         </el-input>
@@ -78,7 +78,7 @@ export default {
           });
       },
       login(){
-        let path = 'http://192.168.0.4:6325/login'
+        let path = 'http://127.0.0.1:5000/login'
         let param = {
           work_id: this.loginForm.username,
           password: this.loginForm.password
@@ -142,7 +142,7 @@ export default {
 .login-box-title{
     line-height: 50px;
     font-size: 20px;
-    color: #ffffff;
+    color: black;
     text-align: center;
     border-bottom: 1px solid #ffffff;
 }
