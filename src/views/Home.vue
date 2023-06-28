@@ -20,6 +20,26 @@
         <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Supplier')">供应商信息</el-button>
       </div>
     </div>
+    <div class="login-box" v-permission="['worker','admin']">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Stock')">进货</el-button>
+      </div>
+    </div>
+    <div class="login-box" v-permission="['worker','admin']">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('StReturn')">退货</el-button>
+      </div>
+    </div>
+    <div class="login-box" v-permission="['worker','admin']">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('Sale')">销售</el-button>
+      </div>
+    </div>
+    <div class="login-box" v-permission="['worker','admin']">
+      <div class="login-box-from">
+        <el-button type="primary" size="medium" style="width:100%; height: 100px;font-size: 48px;" @click="toParam('CuReturn')">售后</el-button>
+      </div>
+    </div>
 
   </div>
 </template>
