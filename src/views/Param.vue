@@ -127,11 +127,11 @@ export default {
       let path=''
       let text=''
       if (this.type==='add'){
-        path='http://127.0.0.1:5000/auto_experiment/add'
+        path='http://43.143.116.236:5001/add'
         text='新增'
       }
       if (this.type==='update'){
-        path='http://127.0.0.1:5000/auto_experiment/update'
+        path='http://43.143.116.236:5001/update'
         text='更新'
       }
       axios.post(path,params).then(res=>{
@@ -141,12 +141,13 @@ export default {
             message: text+'成功',
             showClose:true
           });
+          this.dialog=false
+          if (this.type==='add'){
+            location.reload()
+          }
         }
       })
-      this.dialog=false
-      if (this.type==='add'){
-        location.reload()
-      }
+
     },
     openDialog(type,index){
       this.dialog=true
@@ -160,16 +161,17 @@ export default {
 
     },
     del(row){
-      let path='http://127.0.0.1:5000/del'
+      let path='http://43.143.116.236:5001/del'
       let params={table:this.name,no:row[this.table[0].value[0].value],col:this.table[0].value[0].value}
       axios.get(path,{params:params}).then(res=>{
         if (res.data.code===200) {
           this.$message.success('删除成功')
+          location.reload()
         }
       })
     },
     get_param(){
-      let path='http://127.0.0.1:5000/get'
+      let path='http://43.143.116.236:5001/get'
       let params={table:this.name}
       console.log(params)
       axios.get(path,{params:params}).then(res=>{

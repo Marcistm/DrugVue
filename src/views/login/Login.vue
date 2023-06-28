@@ -78,7 +78,7 @@ export default {
           });
       },
       login(){
-        let path = 'http://127.0.0.1:5000/login'
+        let path = 'http://43.143.116.236:5001/login'
         let param = {
           work_id: this.loginForm.username,
           password: this.loginForm.password
